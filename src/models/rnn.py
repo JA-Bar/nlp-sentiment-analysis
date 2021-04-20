@@ -113,26 +113,26 @@ def get_gru_rnn(
                 "To load a non-pretrained model, an embedding_matrix is needed."
             )
 
-    model_GRU = tf.keras.Sequential(
-        [
-            tf.keras.layers.Embedding(
-                vocab_size,
-                EMBEDDING_DIM,
-                weights=[embedding_matrix],
-                input_length=MAX_SEQUENCE_LENGTH,
-                trainable=True,
-            ),
-            tf.keras.layers.GRU(units=16, return_sequences=True),
-            tf.keras.layers.GRU(units=8, return_sequences=True),
-            tf.keras.layers.GRU(units=4),
-            tf.keras.layers.Dense(1, activation="sigmoid"),
-        ]
-    )
+        model_GRU = tf.keras.Sequential(
+            [
+                tf.keras.layers.Embedding(
+                    vocab_size,
+                    EMBEDDING_DIM,
+                    weights=[embedding_matrix],
+                    input_length=MAX_SEQUENCE_LENGTH,
+                    trainable=True,
+                ),
+                tf.keras.layers.GRU(units=16, return_sequences=True),
+                tf.keras.layers.GRU(units=8, return_sequences=True),
+                tf.keras.layers.GRU(units=4),
+                tf.keras.layers.Dense(1, activation="sigmoid"),
+            ]
+        )
 
-    optimizer = tf.keras.optimizers.Adam(lr=1e-3)
-    model_GRU.compile(
-        loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"]
-    )
+        optimizer = tf.keras.optimizers.Adam(lr=1e-3)
+        model_GRU.compile(
+            loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"]
+        )
 
     return model_GRU
 
