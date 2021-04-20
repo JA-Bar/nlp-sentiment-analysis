@@ -1,7 +1,7 @@
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
 
-from code.utils import load_from_pickle
+from src.utils import load_from_pickle
 
 
 def encode_text(input_text, MAX_SEQUENCE_LENGTH=50):
