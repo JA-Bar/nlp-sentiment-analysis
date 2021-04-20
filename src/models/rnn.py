@@ -5,7 +5,7 @@ from src.utils import load_from_pickle
 
 
 def encode_text(input_text, MAX_SEQUENCE_LENGTH=50):
-    tokenizer = load_from_pickle("data/tokenizer.pkl")
+    tokenizer = load_from_pickle("data/rnn/tokenizer.pkl")
     encoded_text = pad_sequences(
         tokenizer.texts_to_sequences(input_text),
         padding="post",
@@ -22,7 +22,7 @@ def get_bidirectional_rnn(
     MAX_SEQUENCE_LENGTH=50,
 ):
     if pretrained:
-        model_rnn_simple = tf.keras.models.load_model("data/RNN_SIMPLE.h5")
+        model_rnn_simple = tf.keras.models.load_model("data/rnn/RNN_SIMPLE.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError(
@@ -61,7 +61,7 @@ def get_clstm(
     MAX_SEQUENCE_LENGTH=50,
 ):
     if pretrained:
-        model_CLSTM = tf.keras.models.load_model("data/CLSTM.h5")
+        model_CLSTM = tf.keras.models.load_model("data/rnn/CLSTM.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError(
@@ -106,7 +106,7 @@ def get_gru_rnn(
 ):
 
     if pretrained:
-        model_GRU = tf.keras.models.load_model("data/GRU.h5")
+        model_GRU = tf.keras.models.load_model("data/rnn/GRU.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError(
@@ -140,7 +140,7 @@ def get_gru_rnn(
 def inference(sentences):
     input_text = encode_text(sentences)
 
-    embedding_matrix = load_from_pickle("data/embedding_matrix.pkl")
+    embedding_matrix = load_from_pickle("data/rnn/embedding_matrix.pkl")
 
     biderectional = get_bidirectional_rnn(
         pretrained=True, embedding_matrix=embedding_matrix
