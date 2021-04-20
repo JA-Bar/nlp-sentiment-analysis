@@ -1,7 +1,7 @@
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
 
-from src.utils import load_from_pickle
+from src.utils import load_from_pickle, interpret_results
 
 
 def encode_text(input_text, MAX_SEQUENCE_LENGTH=50):
@@ -151,6 +151,10 @@ def inference(sentences):
     biderectional_output = biderectional.predict(input_text)
     clstm_output = clstm.predict(input_text)
     gru_ouput = gru.predict(input_text)
+
+    biderectional_output = interpret_results(biderectional_output, threshold=0)
+    clstm_output = interpret_results(clstm_output, threshold=0.5)
+    gru_ouput = interpret_results(gru_ouput, threshold=0.5)
 
     return {
         "bidirectional": biderectional_output,

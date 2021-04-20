@@ -12,3 +12,7 @@ def load_from_pickle(path):
 
     return result
 
+
+def interpret_results(results, threshold=0.5):
+    return [0 if r < threshold else 1 for r in results]
+
