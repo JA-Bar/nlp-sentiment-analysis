@@ -134,6 +134,8 @@ def get_gru_rnn(
         loss="binary_crossentropy", optimizer=optimizer, metrics=["accuracy"]
     )
 
+    return model_GRU
+
 
 def inference(sentences):
     input_text = encode_text(sentences)
