@@ -1,3 +1,5 @@
 .python-version
 
 .env
+
+data/voice_model/*
