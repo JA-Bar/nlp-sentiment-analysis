@@ -40,7 +40,7 @@ def audio_to_string(duration=5, sample_rate=48000, voice_path='data/voice_model/
 
     os.remove('./recording.wav')
 
-    return transcription
+    return [transcription]
 
 
 if __name__ == '__main__':
