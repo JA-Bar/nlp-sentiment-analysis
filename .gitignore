@@ -3,3 +3,5 @@
 .env
 
 data/voice_model/*
+data/*
+
