@@ -5,3 +5,5 @@
 data/voice_model/*
 data/*
 
+**/*/__pycache__
+

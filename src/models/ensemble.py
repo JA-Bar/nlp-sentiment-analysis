@@ -2,7 +2,7 @@ from src import models
 
 
 # TODO: deal with sklearn's np.nan as a value
-def inference(sentences):
+def inference(sentences, return_inferences=True):
     processed_sentences = sentences  # replace with function_to_preprocess_sentences
 
     predictions = {}
@@ -13,7 +13,12 @@ def inference(sentences):
     sklearn_predictions = models.sklearn.inference(processed_sentences)
     predictions.update(sklearn_predictions)
 
-    return combine_predictions(predictions)
+    result = combine_predictions(predictions)
+
+    if return_inferences:
+        result = (result, predictions)
+
+    return result
 
 
 def combine_predictions(predictions, positive_threshold=0.5):

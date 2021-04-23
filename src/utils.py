@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 def load_from_pickle(path):
-    path = Path(path)
+    path = Path(path).with_suffix('.pkl')
     if not path.exists():
         raise AttributeError(f"The file {str(path)} doesn't exist.")
 

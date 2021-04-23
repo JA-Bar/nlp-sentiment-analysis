@@ -23,8 +23,8 @@ def df_to_embedded_df(text, word_embedded, embeddings_phonetics):
 
 
 def inference(lista):
-    word_embedded = load_from_pickle("word_embedded")
-    embeddings_phonetics = load_from_pickle("embeddings_phonetics")
+    word_embedded = load_from_pickle("data/sklearn/word_embedded")
+    embeddings_phonetics = load_from_pickle("data/sklearn/embeddings_phonetics")
     prediction_dictionary = {}
     text_embbeded = [df_to_embedded_df(element, word_embedded, embeddings_phonetics) for element in lista]
     embbeded_mean = [np.mean(element, axis=0).reshape(1, -1) for element in text_embbeded]
