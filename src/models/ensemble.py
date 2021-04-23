@@ -1,13 +1,17 @@
-from src.models import rnn
+from src import models
 
 
+# TODO: deal with sklearn's np.nan as a value
 def inference(sentences):
     processed_sentences = sentences  # replace with function_to_preprocess_sentences
 
     predictions = {}
 
-    rnn_predictions = rnn.inference(processed_sentences)
+    rnn_predictions = models.rnn.inference(processed_sentences)
     predictions.update(rnn_predictions)
+
+    sklearn_predictions = models.sklearn.inference(processed_sentences)
+    predictions.update(sklearn_predictions)
 
     return combine_predictions(predictions)
 
