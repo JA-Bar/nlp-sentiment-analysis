@@ -1,9 +1,10 @@
 from src import models
+from src.models.text_preprocess import preprocess
 
 
 # TODO: deal with sklearn's np.nan as a value
 def inference(sentences, return_inferences=True):
-    processed_sentences = sentences  # replace with function_to_preprocess_sentences
+    processed_sentences = [preprocess(s) for s in sentences]
 
     predictions = {}
 

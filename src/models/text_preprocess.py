@@ -8,16 +8,6 @@ Original file is located at
 """
 
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('state_union')
-nltk.download('tagsets')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
-nltk.download('maxent_ne_chunker')
-nltk.download('gutenberg')
-nltk.download('movie_reviews')
-
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -29,11 +19,6 @@ from nltk.corpus import movie_reviews
 from nltk.classify import ClassifierI
 from nltk.classify.scikitlearn import SklearnClassifier
 from nltk.corpus import gutenberg
-
-import matplotlib
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib import style 
 import numpy as np
 import pandas as pd
 
@@ -55,18 +40,20 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
-matplotlib.use('Agg')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
 
 def save_pickle(name_to_save, document):
-  name_to_save = open(f"drive/My Drive/Colab Notebooks/sentiment/{name_to_save}.pkl", "wb")
-  pickle.dump(document, name_to_save)
-  name_to_save.close()
+    name_to_save = open(f"drive/My Drive/Colab Notebooks/sentiment/{name_to_save}.pkl", "wb")
+    pickle.dump(document, name_to_save)
+    name_to_save.close()
+
 
 def load_pickle(name_document):
-  with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
-    return pickle.load(f)
+    with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
+        return pickle.load(f)
 
-"""##  Import data and visualize"""
 
 df = pd.read_csv('drive/My Drive/Colab Notebooks/training.1600000.processed.noemoticon.csv',
                  encoding = 'latin-1',header=None)
@@ -120,47 +107,48 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
         return wordnet.NOUN
     elif nltk_tag.startswith('R'):
         return wordnet.ADV
-    else:          
+    else:
         return None
 
-def preprocess(text)  
-  # We load stop words from nltk corpus
-  stop_words = stopwords.words('english')
-  #stemmer = SnowballStemmer('english')
-  # We created a regex that will help us clean all of the links that are
-  # attached in our data
-  stop_words = not_all_stop_words(stop_words)
-  # For this example, we found a TweetTokenizer which suppose to do a better job
-  # at tokenize the words on a Tweet
-  tknzr = TweetTokenizer()
-  all_words = []
 
-  # We define a function that will help us preprocess every row in our data
-  def preprocess_each_text(text):
-      text = p.clean(text)
-      # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
-      text = normalize(text)
-      tokens = []
-      # we split into words our tweet
-      words = tknzr.tokenize(text)
-      nltk_tagged = nltk.pos_tag(words)  
-      #tuple of (token, wordnet_tag)
-      wordnet_tagged = map(lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
-      lemmatized_sentence = []
+def preprocess(text):
+    # We load stop words from nltk corpus
+    stop_words = stopwords.words('english')
+    #stemmer = SnowballStemmer('english')
+    # We created a regex that will help us clean all of the links that are
+    # attached in our data
+    stop_words = not_all_stop_words(stop_words)
+    # For this example, we found a TweetTokenizer which suppose to do a better job
+    # at tokenize the words on a Tweet
+    tknzr = TweetTokenizer()
+    all_words = []
 
-      for word, tag in wordnet_tagged:
-          if tag is None:
-            if word not in stop_words:
-              #if there is no available tag, append the token as is
-              all_words.append(word)
-              lemmatized_sentence.append(word)
-          else:
-            if word not in stop_words:        
-              #else use the tag to lemmatize the token
-              lemma = lemmatizer.lemmatize(word, tag)
-              all_words.append(word)
-              lemmatized_sentence.append(lemma)
-      return " ".join(lemmatized_sentence)
+    # We define a function that will help us preprocess every row in our data
+    def preprocess_each_text(text):
+        text = p.clean(text)
+        # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
+        text = normalize(text)
+        tokens = []
+        # we split into words our tweet
+        words = tknzr.tokenize(text)
+        nltk_tagged = nltk.pos_tag(words)  
+        #tuple of (token, wordnet_tag)
+        wordnet_tagged = map(lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
+        lemmatized_sentence = []
+
+        for word, tag in wordnet_tagged:
+            if tag is None:
+                if word not in stop_words:
+                    #if there is no available tag, append the token as is
+                    all_words.append(word)
+                    lemmatized_sentence.append(word)
+            else:
+                if word not in stop_words:
+                    #else use the tag to lemmatize the token
+                    lemma = lemmatizer.lemmatize(word, tag)
+                    all_words.append(word)
+                    lemmatized_sentence.append(lemma)
+        return " ".join(lemmatized_sentence)
 
 def no_acent(sentence):
     replacements = (
