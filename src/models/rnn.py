@@ -7,8 +7,9 @@ from keras.preprocessing.sequence import pad_sequences
 from src.utils import load_from_pickle, interpret_results
 
 
-def encode_text(input_text, MAX_SEQUENCE_LENGTH=50):
-    tokenizer = load_from_pickle("data/rnn/tokenizer.pkl")
+def encode_text(input_text, data_path='data/', MAX_SEQUENCE_LENGTH=50):
+    data_path = Path(data_path, 'rnn')
+    tokenizer = load_from_pickle(data_path / "tokenizer.pkl")
     encoded_text = pad_sequences(
         tokenizer.texts_to_sequences(input_text),
         padding="post",
@@ -128,7 +129,7 @@ def get_gru_rnn(
 
 
 def inference(sentences, data_path='data/', pretrained=True):
-    input_text = encode_text(sentences)
+    input_text = encode_text(sentences, data_path=data_path)
 
     rnn_path = Path(data_path, 'rnn')
 

@@ -24,5 +24,5 @@ def inference(inputs, data_path='data', model_name='Equipo1BERT_bert'):
         else:
             classification.append(1)
 
-    return classification
+    return {'bert', classification}
 

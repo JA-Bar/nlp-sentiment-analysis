@@ -27,7 +27,7 @@ def inference(lista, data_path='data/'):
     data_path = Path(data_path, 'sklearn')
 
     word_embedded = load_from_pickle(data_path / "word_embedded")
-    embeddings_phonetics = load_from_pickle("data/sklearn/embeddings_phonetics")
+    embeddings_phonetics = load_from_pickle(data_path / "embeddings_phonetics")
     prediction_dictionary = {}
     text_embbeded = [df_to_embedded_df(element, word_embedded, embeddings_phonetics) for element in lista]
     embbeded_mean = [np.mean(element, axis=0).reshape(1, -1) for element in text_embbeded]

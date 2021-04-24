@@ -1,7 +1,7 @@
 import argparse
 
 from src import models
-from src.models import ensemble
+from src.models import ensemble, voice_recognition
 from src.apis import twitter_user, reddit
 
 
