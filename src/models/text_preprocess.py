@@ -48,41 +48,32 @@ def save_pickle(name_to_save, document):
     name_to_save = open(f"drive/My Drive/Colab Notebooks/sentiment/{name_to_save}.pkl", "wb")
     pickle.dump(document, name_to_save)
     name_to_save.close()
+    
+def label_decoder(label,lab_to_sentiment):
+      return lab_to_sentiment[label]
 
-
-def load_pickle(name_document):
-    with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
-        return pickle.load(f)
-
-
-df = pd.read_csv('drive/My Drive/Colab Notebooks/training.1600000.processed.noemoticon.csv',
-                 encoding = 'latin-1',header=None)
-# Label the columns of our dataset
-df.columns = ['sentiment', 'id', 'date', 'query', 'user_id', 'text']
-# Drop the columns that we won't need
-df = df.drop(['id', 'date', 'query', 'user_id'], axis=1)
-# For this example, we are only keeping 3% of the data but ideally
-# we will train with the whole dataset if we had the computation power
-df = df.sample(frac=1, random_state=1)
-df = df.drop_duplicates(subset=["text"])
-# Dictionary to replace the numbers to a Binary classification
-lab_to_sentiment = {0:0, 4:1}
-def label_decoder(label):
-  return lab_to_sentiment[label]
-
-# We replace the sentiment values with our binary classification
-df.sentiment = df.sentiment.apply(lambda x: label_decoder(x))
-
-# Print the final data
-df.head()
-
-val_count = df.sentiment.value_counts()
-
-plt.figure(figsize=(8,4))
-plt.bar(val_count.index, val_count.values)
-plt.title("Sentiment Data Distribution")
-
-"""## Preprocess data"""
+def df_cleaning(path_cv = 'drive/My Drive/Colab Notebooks/training.1600000.processed.noemoticon.csv')
+    df = pd.read_csv(path_cv,encoding = 'latin-1',header=None)
+    # Label the columns of our dataset
+    df.columns = ['sentiment', 'id', 'date', 'query', 'user_id', 'text']
+    # Drop the columns that we won't need
+    df = df.drop(['id', 'date', 'query', 'user_id'], axis=1)
+    # For this example, we are only keeping 3% of the data but ideally
+    # we will train with the whole dataset if we had the computation power
+    df = df.sample(frac=1, random_state=1)
+    df = df.drop_duplicates(subset=["text"])
+    # Dictionary to replace the numbers to a Binary classification
+    lab_to_sentiment = {0:0, 4:1}
+    df.sentiment = df.sentiment.apply(lambda x: label_decoder(x))
+    return df
+    
+def visualize(df)
+    # Print the final data
+    df.head()
+    val_count = df.sentiment.value_counts()
+    plt.figure(figsize=(8,4))
+    plt.bar(val_count.index, val_count.values)
+    plt.title("Sentiment Data Distribution")
 
 def not_all_stop_words(stop_words):
   stop_words.remove("not")
