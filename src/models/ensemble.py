@@ -40,7 +40,7 @@ def _check_same_length(predictions):
 
     same_length = True
     for value in predictions.values():
-        if value != n:
+        if len(value) != n:
             same_length = False
 
     if not same_length:
