@@ -15,10 +15,10 @@ def format_results(sentences, results):
     return formatted_results
 
 
-def predict(sentences):
-    models.bert.prepare_model()
+def predict(sentences, data_path='data/'):
+    models.bert.prepare_model(data_path)
 
-    results, inferences = ensemble.inference(sentences, return_inferences=True)
+    results, inferences = ensemble.inference(sentences, data_path=data_path, return_inferences=True)
     results = format_results(sentences, results)
 
     print("The individual inferences by the models were: ", inferences)
@@ -33,6 +33,7 @@ if __name__ == '__main__':
     parser.add_argument('--voice', action='store_true')
     parser.add_argument('--twitter', default="")
     parser.add_argument('--reddit', default="")
+    parser.add_argument('--data_path', default="data/")
 
     args = parser.parse_args()
     sentences = ""
@@ -56,5 +57,5 @@ if __name__ == '__main__':
 
     print('The input sentences are:', sentences)
 
-    predict(sentences)
+    predict(sentences, args.data_path)
 

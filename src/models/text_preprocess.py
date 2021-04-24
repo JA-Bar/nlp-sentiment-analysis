@@ -81,6 +81,7 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
     else:
         return None
     
+
 def preprocess_each_text(text, stop_words, tknzr):
         text = p.clean(text)
         # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
@@ -120,9 +121,6 @@ def preprocess(text):
     text = preprocess_each_text(text, stop_words, tknzr)
     
     return text
-
-    # We define a function that will help us preprocess every row in our data
-    
 
 
 def no_acent(sentence):

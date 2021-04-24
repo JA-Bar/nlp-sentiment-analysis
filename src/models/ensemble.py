@@ -3,7 +3,7 @@ from src.models.text_preprocess import preprocess
 
 
 # TODO: deal with sklearn's np.nan as a value
-def inference(sentences, return_inferences=True):
+def inference(sentences, data_path='data/', return_inferences=True):
     print('Processing text...')
     # processed_sentences = [preprocess(s) for s in sentences]
     processed_sentences = sentences
@@ -11,15 +11,15 @@ def inference(sentences, return_inferences=True):
     predictions = {}
 
     print('Performing inference with rnns...')
-    rnn_predictions = models.rnn.inference(processed_sentences)
+    rnn_predictions = models.rnn.inference(processed_sentences, data_path)
     predictions.update(rnn_predictions)
 
     print('Performing inference with sklearn models...')
-    sklearn_predictions = models.sklearn.inference(processed_sentences)
+    sklearn_predictions = models.sklearn.inference(processed_sentences, data_path)
     predictions.update(sklearn_predictions)
 
     print('Performing inference with BERT...')
-    bert_predictions = models.bert.inference(processed_sentences)
+    bert_predictions = models.bert.inference(processed_sentences, data_path)
     predictions.update(bert_predictions)
 
     result = combine_predictions(predictions)

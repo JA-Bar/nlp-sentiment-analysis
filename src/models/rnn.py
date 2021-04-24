@@ -1,3 +1,6 @@
+from pathlib import Path
+
+
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
 
@@ -15,13 +18,17 @@ def encode_text(input_text, MAX_SEQUENCE_LENGTH=50):
 
 
 def get_bidirectional_rnn(pretrained=False,
+                          rnn_path=None,
                           embedding_matrix=None,
                           vocab_size=309467,
                           EMBEDDING_DIM=200,
                           MAX_SEQUENCE_LENGTH=50):
 
     if pretrained:
-        model_rnn_simple = tf.keras.models.load_model("data/rnn/RNN_SIMPLE.h5")
+        if rnn_path is None:
+            raise ValueError("You must provide a path to pretrained models.")
+
+        model_rnn_simple = tf.keras.models.load_model(rnn_path / "RNN_SIMPLE.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError("To load a non-pretrained model, an embedding_matrix is needed.")
@@ -45,13 +52,17 @@ def get_bidirectional_rnn(pretrained=False,
 
 
 def get_clstm(pretrained=False,
+              rnn_path=None,
               vocab_size=309467,
               embedding_matrix=None,
               EMBEDDING_DIM=200,
               MAX_SEQUENCE_LENGTH=50):
 
     if pretrained:
-        model_CLSTM = tf.keras.models.load_model("data/rnn/CLSTM.h5")
+        if rnn_path is None:
+            raise ValueError("You must provide a path to pretrained models.")
+
+        model_CLSTM = tf.keras.models.load_model(rnn_path / "CLSTM.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError("To load a non-pretrained model, an embedding_matrix is needed.")
@@ -81,14 +92,17 @@ def get_clstm(pretrained=False,
 
 def get_gru_rnn(
     pretrained=False,
+    rnn_path=None,
     vocab_size=309467,
     embedding_matrix=None,
     EMBEDDING_DIM=200,
-    MAX_SEQUENCE_LENGTH=50,
-):
+    MAX_SEQUENCE_LENGTH=50):
 
     if pretrained:
-        model_GRU = tf.keras.models.load_model("data/rnn/GRU.h5")
+        if rnn_path is None:
+            raise ValueError("You must provide a path to pretrained models.")
+
+        model_GRU = tf.keras.models.load_model(rnn_path/"GRU.h5")
     else:
         if embedding_matrix is None:
             raise AttributeError("To load a non-pretrained model, an embedding_matrix is needed.")
@@ -113,27 +127,29 @@ def get_gru_rnn(
     return model_GRU
 
 
-def inference(sentences, pretrained=True):
+def inference(sentences, data_path='data/', pretrained=True):
     input_text = encode_text(sentences)
 
+    rnn_path = Path(data_path, 'rnn')
+
     if not pretrained:
-        embedding_matrix = load_from_pickle("data/rnn/embedding_matrix.pkl")
+        embedding_matrix = load_from_pickle(rnn_path / 'embedding_matrix.pkl')
     else:
         embedding_matrix = None
 
-    biderectional_model = get_bidirectional_rnn(pretrained=True, embedding_matrix=embedding_matrix)
+    biderectional_model = get_bidirectional_rnn(pretrained=True, rnn_path=rnn_path, embedding_matrix=embedding_matrix)
     biderectional_output = biderectional_model.predict(input_text)
     biderectional_output = interpret_results(biderectional_output, threshold=0)
 
     del biderectional_model
 
-    clstm_model = get_clstm(pretrained=True, embedding_matrix=embedding_matrix)
+    clstm_model = get_clstm(pretrained=True, rnn_path=rnn_path, embedding_matrix=embedding_matrix)
     clstm_output = clstm_model.predict(input_text)
     clstm_output = interpret_results(clstm_output, threshold=0.5)
 
     del clstm_model
 
-    gru_model = get_gru_rnn(pretrained=True, embedding_matrix=embedding_matrix)
+    gru_model = get_gru_rnn(pretrained=True, rnn_path=rnn_path, embedding_matrix=embedding_matrix)
     gru_ouput = gru_model.predict(input_text)
     gru_ouput = interpret_results(gru_ouput, threshold=0.5)
 
