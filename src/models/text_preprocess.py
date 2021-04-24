@@ -15,21 +15,21 @@ import re
 from nltk.tokenize import TweetTokenizer
 
 
-nltk.download('stopwords')
-nltk.download('wordnet')
-
-
 def save_pickle(name_to_save, document):
     name_to_save = open(f"drive/My Drive/Colab Notebooks/sentiment/{name_to_save}.pkl", "wb")
     pickle.dump(document, name_to_save)
     name_to_save.close()
+
+def load_pickle(name_document):
+    with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
+    return pickle.load(f) 
 
 
 def label_decoder(label, lab_to_sentiment):
     return lab_to_sentiment[label]
 
 
-def df_cleaning(path_cv='drive/My Drive/Colab Notebooks/training.1600000.processed.noemoticon.csv'):
+def df_cleaning(path_cv='data/train/training.1600000.processed.noemoticon.csv'):
     df = pd.read_csv(path_cv, encoding='latin-1', header=None)
     # Label the columns of our dataset
     df.columns = ['sentiment', 'id', 'date', 'query', 'user_id', 'text']
@@ -66,8 +66,6 @@ def not_all_stop_words(stop_words):
             stop_words.remove(word)
     return stop_words
 
-lemmatizer = WordNetLemmatizer()
-
 
 def nltk_tag_to_wordnet_tag(nltk_tag):
     if nltk_tag.startswith('J'):
@@ -80,48 +78,6 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
         return wordnet.ADV
     else:
         return None
-    
-
-def preprocess_each_text(text, stop_words, tknzr):
-        text = p.clean(text)
-        # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
-        text = normalize(text)
-        tokens = []
-        # we split into words our tweet
-        words = tknzr.tokenize(text)
-        nltk_tagged = nltk.pos_tag(words)  
-        #tuple of (token, wordnet_tag)
-        wordnet_tagged = map(lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
-        lemmatized_sentence = []
-
-        for word, tag in wordnet_tagged:
-            if tag is None:
-                if word not in stop_words:
-                    #if there is no available tag, append the token as is
-                    all_words.append(word)
-                    lemmatized_sentence.append(word)
-            else:
-                if word not in stop_words:
-                    #else use the tag to lemmatize the token
-                    lemma = lemmatizer.lemmatize(word, tag)
-                    lemmatized_sentence.append(lemma)
-        return " ".join(lemmatized_sentence)
-
-
-def preprocess(text):
-    # We load stop words from nltk corpus
-    stop_words = stopwords.words('english')
-    #stemmer = SnowballStemmer('english')
-    # We created a regex that will help us clean all of the links that are
-    # attached in our data
-    stop_words = not_all_stop_words(stop_words)
-    # For this example, we found a TweetTokenizer which suppose to do a better job
-    # at tokenize the words on a Tweet
-    tknzr = TweetTokenizer()
-    text = preprocess_each_text(text, stop_words, tknzr)
-    
-    return text
-
 
 def no_acent(sentence):
     replacements = (
@@ -178,22 +134,38 @@ def normalize(text):
 
     return text
 
+def preprocess_each_text(text, stop_words, tknzr):
+    text = p.clean(text)
+    # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
+    text = normalize(text)
+    tokens = []
+    # we split into words our tweet
+    words = tknzr.tokenize(text)
+    nltk_tagged = nltk.pos_tag(words)  
+    #tuple of (token, wordnet_tag)
+    wordnet_tagged = map(lambda x: (x[0], nltk_tag_to_wordnet_tag(x[1])), nltk_tagged)
+    lemmatized_sentence = []
 
-if __name__ == '__main__':
-    df.text = df.text.apply(lambda x: preprocess(x))
-    save_pickle("final_df_preprocessed", df)
+    for word, tag in wordnet_tagged:
+        if tag is None:
+            if word not in stop_words:
+                #if there is no available tag, append the token as is
+                lemmatized_sentence.append(word)
+        else:
+            if word not in stop_words:
+                #else use the tag to lemmatize the token
+                lemma = lemmatizer.lemmatize(word, tag)
+                lemmatized_sentence.append(lemma)
+    return " ".join(lemmatized_sentence)
 
-    df.head()
 
-    train_data = df[:round(len(df)*.8)]
-    test_data = df[round(len(df)*.8):]
+def preprocess(text):
+    lemmatizer = WordNetLemmatizer()
+    stop_words = stopwords.words('english')
+    stop_words = not_all_stop_words(stop_words)
+    tknzr = TweetTokenizer()
+    text = preprocess_each_text(text, stop_words, tknzr)
+  
+    return text
 
-    print(len(train_data))
-    print(len(test_data))
-
-    train_data.head()
-
-    save_pickle("train_preproccesed_data", train_data)
-
-    save_pickle("test_preproccesed_data", test_data)
 
