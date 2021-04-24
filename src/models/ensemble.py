@@ -4,16 +4,20 @@ from src.models.text_preprocess import preprocess
 
 # TODO: deal with sklearn's np.nan as a value
 def inference(sentences, return_inferences=True):
+    print('Processing text...')
     processed_sentences = [preprocess(s) for s in sentences]
 
     predictions = {}
 
+    print('Performing inference with rnns...')
     rnn_predictions = models.rnn.inference(processed_sentences)
     predictions.update(rnn_predictions)
 
+    print('Performing inference with sklearn models...')
     sklearn_predictions = models.sklearn.inference(processed_sentences)
     predictions.update(sklearn_predictions)
 
+    print('Performing inference with BERT...')
     bert_predictions = models.bert.inference(processed_sentences)
     predictions.update(bert_predictions)
 
