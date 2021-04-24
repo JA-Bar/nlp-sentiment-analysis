@@ -37,7 +37,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     sentences = ""
 
-    if args.demo
+    if args.demo:
         sentences = [
             "I don't like the way this day is going.",
             "The movie was quite bad to be honest with you.",
