@@ -7,7 +7,7 @@ tf.get_logger().setLevel('ERROR')
 def prepare_model(zipfile_path='data/bert/Equipo1BERT_bert-20210423T030536Z-001.zip'):
     zipfile_path = Path(zipfile_path)
 
-    if not zipfile_path.exists():
+    if not zipfile_path.with_name('Equipo1BERT_bert').exists():
         with zipfile.ZipFile(str(zipfile_path), 'r') as zip_ref:
             zip_ref.extractall('data/bert/')
 

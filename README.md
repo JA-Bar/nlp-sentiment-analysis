@@ -2,5 +2,5 @@
 ## Requirements
 
 - Install pytorch
-- `sudo apt-get install libportaudio2`
+- Install PortAudio `sudo apt-get install libportaudio2`
 
