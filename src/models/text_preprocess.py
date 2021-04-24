@@ -20,9 +20,10 @@ def save_pickle(name_to_save, document):
     pickle.dump(document, name_to_save)
     name_to_save.close()
 
+
 def load_pickle(name_document):
     with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
-    return pickle.load(f) 
+    return pickle.load(f)
 
 
 def label_decoder(label, lab_to_sentiment):
@@ -165,7 +166,7 @@ def preprocess(text):
     stop_words = not_all_stop_words(stop_words)
     tknzr = TweetTokenizer()
     text = preprocess_each_text(text, stop_words, tknzr)
-  
+
     return text
 
 
