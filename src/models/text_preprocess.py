@@ -123,7 +123,7 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
     else:          
         return None
 
-def preprocess()  
+def preprocess(text)  
   # We load stop words from nltk corpus
   stop_words = stopwords.words('english')
   #stemmer = SnowballStemmer('english')
@@ -136,7 +136,7 @@ def preprocess()
   all_words = []
 
   # We define a function that will help us preprocess every row in our data
-  def preprocess(text):
+  def preprocess_each_text(text):
       text = p.clean(text)
       # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
       text = normalize(text)
