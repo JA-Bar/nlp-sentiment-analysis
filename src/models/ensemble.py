@@ -13,6 +13,9 @@ def inference(sentences, return_inferences=True):
     sklearn_predictions = models.sklearn.inference(processed_sentences)
     predictions.update(sklearn_predictions)
 
+    bert_predictions = models.bert.inference(processed_sentences)
+    predictions.update(bert_predictions)
+
     result = combine_predictions(predictions)
 
     if return_inferences:
