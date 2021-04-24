@@ -1,5 +1,6 @@
 from pathlib import Path
 import tensorflow as tf
+import tensorflow_text as text
 import zipfile
 tf.get_logger().setLevel('ERROR')
 

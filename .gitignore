@@ -6,4 +6,5 @@ data/voice_model/*
 data/*
 
 **/*/__pycache__
+**/*/.ipynb_checkpoints
 
