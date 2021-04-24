@@ -80,22 +80,8 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
         return wordnet.ADV
     else:
         return None
-
-
-def preprocess(text):
-    # We load stop words from nltk corpus
-    stop_words = stopwords.words('english')
-    #stemmer = SnowballStemmer('english')
-    # We created a regex that will help us clean all of the links that are
-    # attached in our data
-    stop_words = not_all_stop_words(stop_words)
-    # For this example, we found a TweetTokenizer which suppose to do a better job
-    # at tokenize the words on a Tweet
-    tknzr = TweetTokenizer()
-    all_words = []
-
-    # We define a function that will help us preprocess every row in our data
-    def preprocess_each_text(text):
+    
+def preprocess_each_text(text, stop_words, tknzr):
         text = p.clean(text)
         # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
         text = normalize(text)
@@ -117,9 +103,26 @@ def preprocess(text):
                 if word not in stop_words:
                     #else use the tag to lemmatize the token
                     lemma = lemmatizer.lemmatize(word, tag)
-                    all_words.append(word)
                     lemmatized_sentence.append(lemma)
         return " ".join(lemmatized_sentence)
+
+
+def preprocess(text):
+    # We load stop words from nltk corpus
+    stop_words = stopwords.words('english')
+    #stemmer = SnowballStemmer('english')
+    # We created a regex that will help us clean all of the links that are
+    # attached in our data
+    stop_words = not_all_stop_words(stop_words)
+    # For this example, we found a TweetTokenizer which suppose to do a better job
+    # at tokenize the words on a Tweet
+    tknzr = TweetTokenizer()
+    text = preprocess_each_text(text, stop_words, tknzr)
+    
+    return text
+
+    # We define a function that will help us preprocess every row in our data
+    
 
 
 def no_acent(sentence):
