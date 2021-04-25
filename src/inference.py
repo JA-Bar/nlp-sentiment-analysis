@@ -34,15 +34,18 @@ if __name__ == '__main__':
     parser.add_argument('--input', default="",
                         help="Predict over a user-given sentences. "
                         "The sentences should be given as a string argument, "
-                        "where the set of characters '&&' e.g. 'this is sentence one&&Sentence two'")
+                        "where the set of characters '&&' e.g. 'this is sentence one&&Sentence two'.")
 
     parser.add_argument('--voice', default='',
                         help="Use a voice recognition model to perform inference over an audio transcription. "
                         "If the 'record' string is given as an argument, it will prompt for a recording, "
                         "otherwise provide the path to the audio file as an argument.")
 
-    parser.add_argument('--twitter', default="")
-    parser.add_argument('--reddit', default="")
+    parser.add_argument('--twitter', default="",
+                        help="Perform inference over tweets from the user specified as an argument.")
+
+    parser.add_argument('--reddit', default="",
+                        help="Perform inference over comments from the user specified as an argument.")
 
     parser.add_argument('--data_path', default="data/",
                         help="Base path to the directory where all the pretrained models are stored, default=data/")

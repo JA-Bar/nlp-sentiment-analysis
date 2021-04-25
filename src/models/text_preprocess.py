@@ -15,6 +15,11 @@ import re
 from nltk.tokenize import TweetTokenizer
 
 
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+
 def save_pickle(name_to_save, document):
     name_to_save = open(f"drive/My Drive/Colab Notebooks/sentiment/{name_to_save}.pkl", "wb")
     pickle.dump(document, name_to_save)
@@ -23,7 +28,7 @@ def save_pickle(name_to_save, document):
 
 def load_pickle(name_document):
     with open(f'drive/My Drive/Colab Notebooks/sentiment/{name_document}.pkl', 'rb') as f:
-    return pickle.load(f)
+        return pickle.load(f)
 
 
 def label_decoder(label, lab_to_sentiment):
@@ -80,6 +85,7 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
     else:
         return None
 
+
 def no_acent(sentence):
     replacements = (
         ("á", "a"),
@@ -135,7 +141,8 @@ def normalize(text):
 
     return text
 
-def preprocess_each_text(text, stop_words, tknzr):
+
+def preprocess_each_text(text, stop_words, tknzr, lemmatizer):
     text = p.clean(text)
     # We get rid of the links on the tweets + lowercase + blank spaces at the end and beginning
     text = normalize(text)
@@ -150,7 +157,7 @@ def preprocess_each_text(text, stop_words, tknzr):
     for word, tag in wordnet_tagged:
         if tag is None:
             if word not in stop_words:
-                #if there is no available tag, append the token as is
+                # if there is no available tag, append the token as is
                 lemmatized_sentence.append(word)
         else:
             if word not in stop_words:
@@ -165,8 +172,7 @@ def preprocess(text):
     stop_words = stopwords.words('english')
     stop_words = not_all_stop_words(stop_words)
     tknzr = TweetTokenizer()
-    text = preprocess_each_text(text, stop_words, tknzr)
+    text = preprocess_each_text(text, stop_words, tknzr, lemmatizer)
 
     return text
-
 
