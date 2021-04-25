@@ -28,12 +28,24 @@ def predict(sentences, data_path='data/'):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--demo', action='store_true')
-    parser.add_argument('--input', default="")
-    parser.add_argument('--voice', action='store_true')
+    parser.add_argument('--demo', action='store_true',
+                        help="Predict the sentiment of a fixed, predefined set of sentences.")
+
+    parser.add_argument('--input', default="",
+                        help="Predict over a user-given sentences. "
+                        "The sentences should be given as a string argument, "
+                        "where the set of characters '&&' e.g. 'this is sentence one&&Sentence two'")
+
+    parser.add_argument('--voice', default='',
+                        help="Use a voice recognition model to perform inference over an audio transcription. "
+                        "If the 'record' string is given as an argument, it will prompt for a recording, "
+                        "otherwise provide the path to the audio file as an argument.")
+
     parser.add_argument('--twitter', default="")
     parser.add_argument('--reddit', default="")
-    parser.add_argument('--data_path', default="data/")
+
+    parser.add_argument('--data_path', default="data/",
+                        help="Base path to the directory where all the pretrained models are stored, default=data/")
 
     args = parser.parse_args()
     sentences = ""
@@ -49,7 +61,7 @@ if __name__ == '__main__':
     elif args.input:
         sentences = args.input.split("&&")
     elif args.voice:
-        sentences = voice_recognition.audio_to_string()
+        sentences = voice_recognition.audio_to_string(args.voice)
     elif args.twitter:
         sentences = twitter_user.tweets_from_user(args.twitter)
     elif args.reddit:
