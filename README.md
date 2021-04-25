@@ -27,7 +27,7 @@ a final prediction. The predictions of all the models are weighed equally.
 ## Interface
 
 The interface with this ensemble is done via the `src.inference` script. The colab notebook
-`nlp-showcase` demonstrates the different modes of operation.
+`NLP-showcase.ipynb` demonstrates the different modes of operation.
 
 To use this script simply run it as a module and provide flags, which act as
 an input specifier to the ensemble.
