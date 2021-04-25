@@ -3,6 +3,11 @@ import os
 import tweepy
 import pickle
 
+from dotenv import load_dotenv
+
+
+load_dotenv()
+
 
 def twitter_auth():
     consumer_key = os.environ.get('TWITTER_CONSUMER_KEY')
@@ -24,18 +29,14 @@ def get_twitter_client():
     return client
 
 
-def tweets_from_user(user=None):
+def tweets_from_user(user=None, limit=5):
     if user is None:
         user = input("Enter username: ")
 
     client = get_twitter_client()
-    tweets = tweepy.Cursor(client.user_timeline, screen_name=user).items()
+    tweets = tweepy.Cursor(client.user_timeline, screen_name=user).items(limit)
 
     user_tweets = [status.text for status in tweets]
-    with open('user_tweet', 'wb') as fp:
-        pickle.dump(user_tweets, fp)
-    with open('user_tweet', 'rb') as fp:
-        user_tweets = pickle.load(fp)
 
     return user_tweets
 
