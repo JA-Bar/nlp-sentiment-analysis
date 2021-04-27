@@ -73,11 +73,15 @@ REDDIT_CLIENT_SECRET=the_app_client_secret
 
 ### Twitter API
 
+To get this data you'll need a twitter developer account, after acquiring one you'll go to the
+Developer Portal to the section Projects & Apps. You can create a Standalone App and select
+"Keys and tokens" here you'll find all of the following keys and tokens.  
+
 ```bash
-TWITTER_CONSUMER_KEY=something
-TWITTER_CONSUMER_SECRET=something
-TWITTER_ACCESS_TOKEN=something
-TWITTER_ACCESS_SECRET=something
+TWITTER_CONSUMER_KEY="consumer_key"
+TWITTER_CONSUMER_SECRET="consumer_secret"
+TWITTER_ACCESS_TOKEN="access_token"
+TWITTER_ACCESS_SECRET="access_secret"
 ```
 
 
