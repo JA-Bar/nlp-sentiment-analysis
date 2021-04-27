@@ -5,8 +5,7 @@ from src.models.text_preprocess import preprocess
 # TODO: deal with sklearn's np.nan as a value
 def inference(sentences, data_path='data/', return_inferences=True):
     print('Processing text...')
-    # processed_sentences = [preprocess(s) for s in sentences]
-    processed_sentences = sentences
+    processed_sentences = [preprocess(s) for s in sentences]
 
     predictions = {}
 
