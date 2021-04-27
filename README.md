@@ -17,10 +17,10 @@ a final prediction. The predictions of all the models are weighed equally.
 
 ## Requirements
 
-- Install pytorch>=1.7 using [the official page][1] according to your system.
 - Install PortAudio, if using a debian based linux distribution use the command:
   `sudo apt-get install libportaudio2`
 - Optionally create and source the python virtual environment of your choice.
+- Install pytorch>=1.7 using [the official page][1] according to your system.
 - Run `pip install -r requirements.txt`
 
 
@@ -69,7 +69,6 @@ REDDIT_USER=your_user
 REDDIT_PASSWORD=your_password
 REDDIT_CLIENT_ID=the_app_client_id
 REDDIT_CLIENT_SECRET=the_app_client_secret
-
 ```
 
 ### Twitter API
