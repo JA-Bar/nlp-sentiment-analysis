@@ -28,6 +28,7 @@ a final prediction. The predictions of all the models are weighed equally.
 | Bidirectional RNN  | 50.00%        | 50.00%     | 50.00%  |
 | CLSTM              | 50.00%        | 50.00%     | 50.00%  |
 | GRU                | 50.00%        | 50.00%     | 50.00%  |
+| BERT               | 50.00%        | 50.00%     | 50.00%  |
 
 
 ## Requirements
