@@ -4,6 +4,7 @@ Group integration project of the NLP course. The purpose of this project
 is to implement different models and preprocessing techniques to perform
 sentiment analysis on a series of short texts.
 
+
 ## Description
 
 We implemented three model types:
@@ -14,6 +15,20 @@ We implemented three model types:
 
 The inferences of all the models are then combined in an ensemble to produce
 a final prediction. The predictions of all the models are weighed equally.
+
+
+## Models
+
+| Model              | Accuracy      | Precision  | Recall  |
+| :----------------: |:-------------:| :--------: | :-----: |
+| BernoulliNB        | 50.00%        | 50.00%     | 50.00%  |
+| SGDClassifier      | 50.00%        | 50.00%     | 50.00%  |
+| LogisticRegression | 50.00%        | 50.00%     | 50.00%  |
+| RandomForest       | 50.00%        | 50.00%     | 50.00%  |
+| Bidirectional RNN  | 50.00%        | 50.00%     | 50.00%  |
+| CLSTM              | 50.00%        | 50.00%     | 50.00%  |
+| GRU                | 50.00%        | 50.00%     | 50.00%  |
+
 
 ## Requirements
 
@@ -51,6 +66,7 @@ This information can be seen at any point by using the `--help` flag.
 As mentioned in the flags, a 'data' directory is needed to run the ensemble. The directory
 structure must be the same as the one provided in the repository's data directory.
 
+
 ## APIs
 
 There are two APIs available: Twitter and Reddit.
@@ -59,6 +75,7 @@ and they take as an argument the name of a user whose tweets/comments will be an
 
 To facilitate the management of credentials, we use the dotenv library, which allows the
 loading of environment variables from a .env file located in the root of the project.
+
 
 ### Reddit API
 Follow the instructions at the [reddit-archive][2] to get the credentials needed for the API use.
@@ -70,6 +87,7 @@ REDDIT_PASSWORD=your_password
 REDDIT_CLIENT_ID=the_app_client_id
 REDDIT_CLIENT_SECRET=the_app_client_secret
 ```
+
 
 ### Twitter API
 
