@@ -19,16 +19,31 @@ a final prediction. The predictions of all the models are weighed equally.
 
 ## Models
 
+#### Metrics
+
 | Model              | Accuracy      | Precision  | Recall  |
 | :----------------: |:-------------:| :--------: | :-----: |
 | BernoulliNB        | 69.36%        | 66.51%     | 70.69%  |
 | SGDClassifier      | 75.44%        | 74.87%     | 75.85%  |
 | LogisticRegression | 75.32%        | 73.57%     | 76.38%  |
 | RandomForest       | 69.50%        | 65.05%     | 71.56%  |
-| Bidirectional RNN  | 50.00%        | 50.00%     | 50.00%  |
-| CLSTM              | 50.00%        | 50.00%     | 50.00%  |
-| GRU                | 50.00%        | 50.00%     | 50.00%  |
+| Bidirectional RNN  | 81.42%        | 50.00%     | 50.00%  |
+| CLSTM              | 79.13%        | 50.00%     | 50.00%  |
+| GRU                | 82.41%        | 50.00%     | 50.00%  |
 | BERT               | 50.00%        | 50.00%     | 50.00%  |
+
+#### Training graphs
+Bidirectional RNN
+
+![alt text](./data/images/bidirectional_training.jpeg)
+
+GRU
+
+![alt text](./data/images/gru_training.jpeg)
+
+CLSTM
+
+![alt text](./data/images/clstm_training.jpeg)
 
 
 ## Requirements
